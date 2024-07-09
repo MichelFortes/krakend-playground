@@ -149,6 +149,21 @@
                     ]
                 }
             ]
+        },
+        {
+            "endpoint": "/allow/pets/{id}",
+            "method": "GET",
+            "backend": [
+                {
+                    "host": ["pets:8080"],
+                    "url_pattern": "/{id}",
+                    "allow": [
+                        "id",
+                        "name",
+                        "breed"
+                    ]
+                }
+            ]
         }
     ]
 }
