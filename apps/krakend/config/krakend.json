@@ -1,0 +1,141 @@
+{
+    "$schema": "https://www.krakend.io/schema/v2.6/krakend.json",
+    "version": 3,
+    "endpoints": [
+        {
+            "endpoint": "/pets",
+            "output_encoding": "no-op",
+            "method": "GET",
+            "backend": [
+                {
+                    "host": ["pets:8080"],
+                    "url_pattern": "/"
+                }
+            ]
+        },
+        {
+            "endpoint": "/pets/{id}",
+            "output_encoding": "no-op",
+            "method": "GET",
+            "backend": [
+                {
+                    "host": ["pets:8080"],
+                    "url_pattern": "/{id}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/doctors",
+            "output_encoding": "no-op",
+            "method": "GET",
+            "backend": [
+                {
+                    "host": ["doctors:8080"],
+                    "url_pattern": "/"
+                }
+            ]
+        },
+        {
+            "endpoint": "/doctors/{id}",
+            "output_encoding": "no-op",
+            "method": "GET",
+            "backend": [
+                {
+                    "host": ["doctors:8080"],
+                    "url_pattern": "/{id}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/owners",
+            "output_encoding": "no-op",
+            "method": "GET",
+            "backend": [
+                {
+                    "host": ["owners:8080"],
+                    "url_pattern": "/"
+                }
+            ]
+        },
+        {
+            "endpoint": "/owners/{id}",
+            "output_encoding": "no-op",
+            "method": "GET",
+            "backend": [
+                {
+                    "host": ["owners:8080"],
+                    "url_pattern": "/{id}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/sequential/pets/{id}",
+            "method": "GET",
+            "extra_config": {
+                "proxy": {
+                    "sequential": true
+                }
+            },
+            "backend": [
+                {
+                    "host": ["pets:8080"],
+                    "url_pattern": "/{id}"
+                },
+                {
+                    "host": ["owners:8080"],
+                    "url_pattern": "/{resp0_ownerId}",
+                    "mapping": {
+                        "id": "ownerId",
+                        "name": "ownerName"
+                    }
+                },
+                {
+                    "host": ["doctors:8080"],
+                    "url_pattern": "/{resp0_doctorId}",
+                    "mapping": {
+                        "id": "doctorId",
+                        "name": "doctorName"
+                    }
+                }
+            ]
+        },
+        {
+            "endpoint": "/rate-limit/service",
+            "output_encoding": "no-op",
+            "method": "GET",
+            "extra_config": {
+                "qos/ratelimit/router": {
+                    "capacity": 1,
+                    "max_rate": 1,
+                    "every": "1s",
+                    "strategy": "ip"
+                }
+            },
+            "backend": [
+                {
+                    "host": ["pets:8080"],
+                    "url_pattern": "/"
+                }
+            ]
+        },
+        {
+            "endpoint": "/rate-limit/client",
+            "output_encoding": "no-op",
+            "method": "GET",
+            "extra_config": {
+                "qos/ratelimit/router": {
+                    "client_capacity": 1,
+                    "client_max_rate": 1,
+                    "every": "1s",
+                    "strategy": "ip"
+                }
+            },
+            "backend": [
+                {
+                    "host": ["pets:8080"],
+                    "url_pattern": "/"
+                }
+            ]
+        }
+    ]
+}

@@ -21,3 +21,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8083:8080
+
+  krakend:
+    build:
+      context: ./apps/krakend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
