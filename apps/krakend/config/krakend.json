@@ -164,6 +164,27 @@
                     ]
                 }
             ]
+        },
+        {
+            "endpoint": "/protected/pets",
+            "method": "GET",
+            "output_encoding": "no-op",
+            "extra_config": {
+                "auth/validator": {
+                    "alg": "RS256",
+                    "jwk_url": "http://keycloak:8080/realms/veterinary_clinic/protocol/openid-connect/certs",
+                    "disable_jwk_security": true,
+                    "cache": true,
+                    "scopes_key": "scope",
+                    "scopes": ["pets.read.all"]
+                }
+            },
+            "backend": [
+                {
+                    "host": ["pets:8080"],
+                    "url_pattern": "/"
+                }
+            ]
         }
     ]
 }
