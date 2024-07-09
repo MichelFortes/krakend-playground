@@ -136,6 +136,19 @@
                     "url_pattern": "/"
                 }
             ]
+        },
+        {
+            "endpoint": "/deny/pets/{id}",
+            "method": "GET",
+            "backend": [
+                {
+                    "host": ["pets:8080"],
+                    "url_pattern": "/{id}",
+                    "deny": [
+                        "ownerId"
+                    ]
+                }
+            ]
         }
     ]
 }
