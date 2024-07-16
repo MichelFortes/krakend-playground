@@ -1,0 +1,695 @@
+{
+	"info": {
+		"_postman_id": "d978f932-a941-4129-a55f-0db0b538021d",
+		"name": "Krakend-Playground",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "63883"
+	},
+	"item": [
+		{
+			"name": "API Gateway",
+			"item": [
+				{
+					"name": "Regular Calls",
+					"item": [
+						{
+							"name": "Get Pets",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/pets",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"pets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Pet By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/pets/a15c72f4-1145-45ad-a544-6ea6f5fc3bd0",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"pets",
+										"a15c72f4-1145-45ad-a544-6ea6f5fc3bd0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Owners",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/owners",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"owners"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Owner By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/owners/65464199-544d-41b4-94a5-91d3099a3551",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"owners",
+										"65464199-544d-41b4-94a5-91d3099a3551"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Doctors",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/doctors",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"doctors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Doctor By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/doctors/e215033f-86d0-4957-92c4-0cc9b78c6884",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"doctors",
+										"e215033f-86d0-4957-92c4-0cc9b78c6884"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Rate Limit",
+					"item": [
+						{
+							"name": "Rate Limit - Client",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/rate-limit/client",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"rate-limit",
+										"client"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rate Limit - Service",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/rate-limit/service",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"rate-limit",
+										"service"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Sequential BFF",
+					"item": [
+						{
+							"name": "Sequential [ Get Pet By ID ]",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/sequential/pets/a15c72f4-1145-45ad-a544-6ea6f5fc3bd0",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"sequential",
+										"pets",
+										"a15c72f4-1145-45ad-a544-6ea6f5fc3bd0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Filter",
+					"item": [
+						{
+							"name": "Deny [ Get Pet By ID ]",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/deny/pets/a15c72f4-1145-45ad-a544-6ea6f5fc3bd0",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"deny",
+										"pets",
+										"a15c72f4-1145-45ad-a544-6ea6f5fc3bd0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Allow [ Get Pet By ID ]",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/allow/pets/a15c72f4-1145-45ad-a544-6ea6f5fc3bd0",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"allow",
+										"pets",
+										"a15c72f4-1145-45ad-a544-6ea6f5fc3bd0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Secure",
+					"item": [
+						{
+							"name": "Protected [ Get Pets ]",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxRm15VEZVLWpaM2YyUm9hZGQ1UkV1bzg4VTB5NW9hZGMzSXVwbl80UEZZIn0.eyJleHAiOjE3MjEwNTQ0NjUsImlhdCI6MTcyMTA1NDE2NSwianRpIjoiMmM1ZmQwNzItOGFlNS00MTdmLThkZWMtYjg1YzhmYjUxN2MyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDkwL3JlYWxtcy92ZXRlcmluYXJ5X2NsaW5pYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI1ZmJkMWNlOS1mNGFhLTQyZTUtYTg0Ny01ZDQxZTllYWIxNjgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJtaWNoZWxfY2xpZW50IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy12ZXRlcmluYXJ5X2NsaW5pYyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJtaWNoZWxfY2xpZW50Ijp7InJvbGVzIjpbInVtYV9wcm90ZWN0aW9uIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwgcGV0cy5yZWFkLmFsbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50SG9zdCI6IjE5Mi4xNjguMTEyLjEiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtbWljaGVsX2NsaWVudCIsImNsaWVudEFkZHJlc3MiOiIxOTIuMTY4LjExMi4xIiwiY2xpZW50X2lkIjoibWljaGVsX2NsaWVudCJ9.FiQRXuCKTyKgPQQMBDcAstbpj9-2phWddiKVpgP9qhFR63Gj1jXN92BdJ2LIz_rAzIZCZSCobP4d1ag9Mc7dLQRXFJYzxWQInCWVkZYdCrAHUtrrgPrA-7iRIEEvwB_kDn201FNYp5Tp7K21jDUrZpghXAZ-QkrfB7zEWGb246huUfrJFeLwDGponfBegLbXCV7VBFXeTmnGGMf0ie4l41o3GzbO4Pt3raMQV4sZ_zaL0iVlSoS9cOfUIxYqpAMyGF19HRjIva2wRTZNugX0m4SfCFPQHDlMyAtmtTSlsg2MpxM5QvmCHR8uJXh2rtW0uz7gZxNMAf5M-3ifiLFjNQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/protected/pets",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"protected",
+										"pets"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Microservices",
+			"item": [
+				{
+					"name": "Doctors",
+					"item": [
+						{
+							"name": "Create Doctor",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Michel\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{doctors_host}}/",
+									"protocol": "http",
+									"host": [
+										"{{doctors_host}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Doctors",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{doctors_host}}/",
+									"protocol": "http",
+									"host": [
+										"{{doctors_host}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Doctor By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{doctors_host}}/e215033f-86d0-4957-92c4-0cc9b78c6884",
+									"protocol": "http",
+									"host": [
+										"{{doctors_host}}"
+									],
+									"path": [
+										"e215033f-86d0-4957-92c4-0cc9b78c6884"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Doctor",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bambam\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{doctors_host}}/716db301-693b-49f9-8724-34c07005c0ba",
+									"protocol": "http",
+									"host": [
+										"{{doctors_host}}"
+									],
+									"path": [
+										"716db301-693b-49f9-8724-34c07005c0ba"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Doctor",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://{{doctors_host}}/716db301-693b-49f9-8724-34c07005c0ba",
+									"protocol": "http",
+									"host": [
+										"{{doctors_host}}"
+									],
+									"path": [
+										"716db301-693b-49f9-8724-34c07005c0ba"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Owners",
+					"item": [
+						{
+							"name": "Create Owner",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Michel\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{owners_host}}/",
+									"protocol": "http",
+									"host": [
+										"{{owners_host}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Owners",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{owners_host}}/",
+									"protocol": "http",
+									"host": [
+										"{{owners_host}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Owner By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{owners_host}}/65464199-544d-41b4-94a5-91d3099a3551",
+									"protocol": "http",
+									"host": [
+										"{{owners_host}}"
+									],
+									"path": [
+										"65464199-544d-41b4-94a5-91d3099a3551"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Owner",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bambam\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{owners_host}}/716db301-693b-49f9-8724-34c07005c0ba",
+									"protocol": "http",
+									"host": [
+										"{{owners_host}}"
+									],
+									"path": [
+										"716db301-693b-49f9-8724-34c07005c0ba"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Owner",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://{{owners_host}}/716db301-693b-49f9-8724-34c07005c0ba",
+									"protocol": "http",
+									"host": [
+										"{{owners_host}}"
+									],
+									"path": [
+										"716db301-693b-49f9-8724-34c07005c0ba"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Pets",
+					"item": [
+						{
+							"name": "Create Pet",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bambam\",\n    \"breed\": \"Beagle\",\n    \"ownerId\": \"xxxx\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{pets_host}}/",
+									"protocol": "http",
+									"host": [
+										"{{pets_host}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Pets",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{pets_host}}/",
+									"protocol": "http",
+									"host": [
+										"{{pets_host}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Pet By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{pets_host}}/a15c72f4-1145-45ad-a544-6ea6f5fc3bd0",
+									"protocol": "http",
+									"host": [
+										"{{pets_host}}"
+									],
+									"path": [
+										"a15c72f4-1145-45ad-a544-6ea6f5fc3bd0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Pet",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bambam\",\n    \"breed\": \"Beagle\",\n    \"ownerId\": \"yyyyyy\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{pets_host}}/36c2ebed-3625-4161-b489-e1231b561698",
+									"protocol": "http",
+									"host": [
+										"{{pets_host}}"
+									],
+									"path": [
+										"36c2ebed-3625-4161-b489-e1231b561698"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Pet",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://{{pets_host}}/36c2ebed-3625-4161-b489-e1231b561698",
+									"protocol": "http",
+									"host": [
+										"{{pets_host}}"
+									],
+									"path": [
+										"36c2ebed-3625-4161-b489-e1231b561698"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Keycloak",
+			"item": [
+				{
+					"name": "Generate Access Token",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "9KDjdUIDFCVFI4Ph5oFCubYJgRhwX7tn",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "michel_client",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{keycloak_host}}/realms/veterinary_clinic/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"{{keycloak_host}}"
+							],
+							"path": [
+								"realms",
+								"veterinary_clinic",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Well-known",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{keycloak_host}}/realms/veterinary_clinic/.well-known/uma2-configuration",
+							"protocol": "http",
+							"host": [
+								"{{keycloak_host}}"
+							],
+							"path": [
+								"realms",
+								"veterinary_clinic",
+								".well-known",
+								"uma2-configuration"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
