@@ -23,9 +23,9 @@ services:
       - 8083:8080
 
   krakend:
-    build:
-      context: ./apps/krakend
-      dockerfile: Dockerfile
+    image: devopsfaith/krakend:2.6.3
+    volumes:
+      - ./apps/krakend/krakend.json:/etc/krakend/krakend.json
     ports:
       - 8080:8080
 
