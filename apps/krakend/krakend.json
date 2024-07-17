@@ -1,6 +1,47 @@
 {
     "$schema": "https://www.krakend.io/schema/v2.6/krakend.json",
     "version": 3,
+    "extra_config": {
+        "telemetry/opentelemetry": {
+            "service_name": "krakend",
+            "trace_sample_rate": 1,
+            "layers": {
+                "global": {
+                    "report_headers": true,
+                    "disable_propagation": false,
+                    "disable_metrics": true,
+                    "disable_traces": false
+                },
+                "proxy": {
+                    "disable_metrics": true,
+                    "disable_traces": true
+                },
+                "backend": {
+                    "traces": {
+                        "disable_stage": true,
+                        "report_headers": true,
+                        "round_trip": true,
+                        "read_payload": true
+                    },
+                    "metrics": {
+                        "disable_stage": true
+                    }
+                }
+            },
+            "exporters": {
+                "otlp": [
+                    {
+                        "host": "alloy",
+                        "port": 4317,
+                        "name": "grafana_alloy",
+                        "use_http": false,
+                        "disable_metrics": true,
+                        "disable_traces": false
+                    }
+                ]
+            }
+        }
+    },
     "endpoints": [
         {
             "endpoint": "/pets",
@@ -8,7 +49,9 @@
             "method": "GET",
             "backend": [
                 {
-                    "host": ["pets:8080"],
+                    "host": [
+                        "pets:8080"
+                    ],
                     "url_pattern": "/"
                 }
             ]
@@ -19,7 +62,9 @@
             "method": "GET",
             "backend": [
                 {
-                    "host": ["pets:8080"],
+                    "host": [
+                        "pets:8080"
+                    ],
                     "url_pattern": "/{id}"
                 }
             ]
@@ -30,7 +75,9 @@
             "method": "GET",
             "backend": [
                 {
-                    "host": ["doctors:8080"],
+                    "host": [
+                        "doctors:8080"
+                    ],
                     "url_pattern": "/"
                 }
             ]
@@ -41,7 +88,9 @@
             "method": "GET",
             "backend": [
                 {
-                    "host": ["doctors:8080"],
+                    "host": [
+                        "doctors:8080"
+                    ],
                     "url_pattern": "/{id}"
                 }
             ]
@@ -52,7 +101,9 @@
             "method": "GET",
             "backend": [
                 {
-                    "host": ["owners:8080"],
+                    "host": [
+                        "owners:8080"
+                    ],
                     "url_pattern": "/"
                 }
             ]
@@ -63,7 +114,9 @@
             "method": "GET",
             "backend": [
                 {
-                    "host": ["owners:8080"],
+                    "host": [
+                        "owners:8080"
+                    ],
                     "url_pattern": "/{id}"
                 }
             ]
@@ -78,11 +131,15 @@
             },
             "backend": [
                 {
-                    "host": ["pets:8080"],
+                    "host": [
+                        "pets:8080"
+                    ],
                     "url_pattern": "/{id}"
                 },
                 {
-                    "host": ["owners:8080"],
+                    "host": [
+                        "owners:8080"
+                    ],
                     "url_pattern": "/{resp0_ownerId}",
                     "mapping": {
                         "id": "ownerId",
@@ -90,7 +147,9 @@
                     }
                 },
                 {
-                    "host": ["doctors:8080"],
+                    "host": [
+                        "doctors:8080"
+                    ],
                     "url_pattern": "/{resp0_doctorId}",
                     "mapping": {
                         "id": "doctorId",
@@ -113,7 +172,9 @@
             },
             "backend": [
                 {
-                    "host": ["pets:8080"],
+                    "host": [
+                        "pets:8080"
+                    ],
                     "url_pattern": "/"
                 }
             ]
@@ -132,7 +193,9 @@
             },
             "backend": [
                 {
-                    "host": ["pets:8080"],
+                    "host": [
+                        "pets:8080"
+                    ],
                     "url_pattern": "/"
                 }
             ]
@@ -142,7 +205,9 @@
             "method": "GET",
             "backend": [
                 {
-                    "host": ["pets:8080"],
+                    "host": [
+                        "pets:8080"
+                    ],
                     "url_pattern": "/{id}",
                     "deny": [
                         "ownerId"
@@ -155,7 +220,9 @@
             "method": "GET",
             "backend": [
                 {
-                    "host": ["pets:8080"],
+                    "host": [
+                        "pets:8080"
+                    ],
                     "url_pattern": "/{id}",
                     "allow": [
                         "id",
@@ -166,9 +233,10 @@
             ]
         },
         {
-            "endpoint": "/protected/pets",
+            "endpoint": "/protected/pets/{id}",
             "method": "GET",
             "output_encoding": "no-op",
+            "input_headers": ["x-jwt-azp"],
             "extra_config": {
                 "auth/validator": {
                     "alg": "RS256",
@@ -176,13 +244,20 @@
                     "disable_jwk_security": true,
                     "cache": true,
                     "scopes_key": "scope",
-                    "scopes": ["pets.read.all"]
+                    "scopes": [
+                        "pets.read.all"
+                    ],
+                    "propagate_claims": [
+                        ["azp", "x-jwt-azp"]
+                    ]
                 }
             },
             "backend": [
                 {
-                    "host": ["pets:8080"],
-                    "url_pattern": "/"
+                    "host": [
+                        "pets:8080"
+                    ],
+                    "url_pattern": "/{id}"
                 }
             ]
         }

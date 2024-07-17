@@ -1,3 +1,5 @@
+networks:
+  net:
 
 services:
   
@@ -5,6 +7,8 @@ services:
     build:
       context: ./apps/veterinary_clinic/pets/
       dockerfile: Dockerfile
+    networks:
+      - net
     ports:
       - 8081:8080
 
@@ -12,6 +16,8 @@ services:
     build:
       context: ./apps/veterinary_clinic/owners/
       dockerfile: Dockerfile
+    networks:
+      - net
     ports:
       - 8082:8080
 
@@ -19,6 +25,8 @@ services:
     build:
       context: ./apps/veterinary_clinic/doctors/
       dockerfile: Dockerfile
+    networks:
+      - net
     ports:
       - 8083:8080
 
@@ -26,14 +34,62 @@ services:
     image: devopsfaith/krakend:2.6.3
     volumes:
       - ./apps/krakend/krakend.json:/etc/krakend/krakend.json
+    networks:
+      - net
     ports:
       - 8080:8080
 
   keycloak:
     image: keycloak/keycloak:25.0
+    networks:
+      - net
     ports:
       - 8090:8080
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
     command: ["start-dev"]
+
+  alloy:
+    image: grafana/alloy:latest
+    networks:
+      - net
+    ports:
+      - 12345:12345
+    volumes:
+      - ./apps/alloy/config.alloy:/etc/alloy/config.alloy
+
+  tempo-init:
+    image: &tempoImage grafana/tempo:latest
+    user: root
+    entrypoint:
+      - "chown"
+      - "10001:10001"
+      - "/var/tempo"
+    volumes:
+      - ./apps/tempo/data:/var/tempo
+
+  tempo:
+    image: *tempoImage
+    networks:
+      - net
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./apps/tempo/config/tempo.yaml:/etc/tempo.yaml
+      - ./apps/tempo/data:/var/tempo
+    ports:
+      - "14268:14268"  # jaeger ingest
+      - "3200:3200"   # tempo
+      - "9095:9095" # tempo grpc
+      - "4317:4317"  # otlp grpc
+      - "4318:4318"  # otlp http
+      - "9411:9411"   # zipkin
+    depends_on:
+      - tempo-init
+
+  grafana:
+    image: grafana/grafana-enterprise:11.1.0
+    networks:
+      - net
+    ports:
+      - "3000:3000"

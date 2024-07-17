@@ -1,0 +1,46 @@
+otelcol.receiver.otlp "otlp_receiver" {
+  grpc {
+    endpoint = "0.0.0.0:4317"
+  }
+  http {
+    endpoint = "0.0.0.0:4318"
+  }
+
+  output {
+    traces = [ otelcol.processor.filter.exclude_spans.input ]
+  }
+}
+
+otelcol.processor.filter "exclude_spans" {
+  error_mode = "ignore"
+
+  traces {
+    span = [ "attributes[\"url.full\"] == \"/__health\"" ]
+  }
+
+  output {
+    traces = [ otelcol.processor.attributes.remove_sensitive.input ]
+  }
+}
+
+otelcol.processor.attributes "remove_sensitive" {
+
+  action {
+    key = "http.request.header.authorization"
+    action = "update"
+    value = "removed"
+  }
+
+  output {
+    traces = [ otelcol.exporter.otlp.gc_tempo.input ]
+  }
+}
+
+otelcol.exporter.otlp "gc_tempo" {
+  client {
+    endpoint = "tempo:4317"
+    tls {
+      insecure = true
+    }
+  }
+}
