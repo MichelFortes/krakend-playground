@@ -93,3 +93,13 @@ services:
       - net
     ports:
       - "3000:3000"
+
+  mimir:
+    image: grafana/mimir:2.13.0
+    networks:
+      - net
+    command: ["-ingester.native-histograms-ingestion-enabled=true", "-config.file=/etc/mimir.yaml"]
+    ports:
+      - "9009:9009"
+    volumes:
+      - ./apps/mimir/mimir.yaml:/etc/mimir.yaml
