@@ -1,6 +1,6 @@
 # krakend-playground
 
-This project was created to demonstrate the api gateway architectural pattern.
+Projeto de demonstração da utilidade de um API Gateway
 
 ## Content
 
