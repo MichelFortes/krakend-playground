@@ -169,6 +169,51 @@
 					]
 				},
 				{
+					"name": "Filter",
+					"item": [
+						{
+							"name": "Deny [ Get Owner By ID ]",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/deny/owners/65464199-544d-41b4-94a5-91d3099a3551",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"deny",
+										"owners",
+										"65464199-544d-41b4-94a5-91d3099a3551"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Allow [ Get Owner By ID ]",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{krakend_host}}/allow/owners/65464199-544d-41b4-94a5-91d3099a3551",
+									"protocol": "http",
+									"host": [
+										"{{krakend_host}}"
+									],
+									"path": [
+										"allow",
+										"owners",
+										"65464199-544d-41b4-94a5-91d3099a3551"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Sequential BFF",
 					"item": [
 						{
@@ -194,62 +239,17 @@
 					]
 				},
 				{
-					"name": "Filter",
-					"item": [
-						{
-							"name": "Deny [ Get Pet By ID ]",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://{{krakend_host}}/deny/pets/a15c72f4-1145-45ad-a544-6ea6f5fc3bd0",
-									"protocol": "http",
-									"host": [
-										"{{krakend_host}}"
-									],
-									"path": [
-										"deny",
-										"pets",
-										"a15c72f4-1145-45ad-a544-6ea6f5fc3bd0"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Allow [ Get Pet By ID ]",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://{{krakend_host}}/allow/pets/a15c72f4-1145-45ad-a544-6ea6f5fc3bd0",
-									"protocol": "http",
-									"host": [
-										"{{krakend_host}}"
-									],
-									"path": [
-										"allow",
-										"pets",
-										"a15c72f4-1145-45ad-a544-6ea6f5fc3bd0"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
 					"name": "Secure",
 					"item": [
 						{
-							"name": "Protected [ Get Pets ]",
+							"name": "Protected [ Get Pet ]",
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxRm15VEZVLWpaM2YyUm9hZGQ1UkV1bzg4VTB5NW9hZGMzSXVwbl80UEZZIn0.eyJleHAiOjE3MjEwNTQ0NjUsImlhdCI6MTcyMTA1NDE2NSwianRpIjoiMmM1ZmQwNzItOGFlNS00MTdmLThkZWMtYjg1YzhmYjUxN2MyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDkwL3JlYWxtcy92ZXRlcmluYXJ5X2NsaW5pYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI1ZmJkMWNlOS1mNGFhLTQyZTUtYTg0Ny01ZDQxZTllYWIxNjgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJtaWNoZWxfY2xpZW50IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy12ZXRlcmluYXJ5X2NsaW5pYyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJtaWNoZWxfY2xpZW50Ijp7InJvbGVzIjpbInVtYV9wcm90ZWN0aW9uIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwgcGV0cy5yZWFkLmFsbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50SG9zdCI6IjE5Mi4xNjguMTEyLjEiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtbWljaGVsX2NsaWVudCIsImNsaWVudEFkZHJlc3MiOiIxOTIuMTY4LjExMi4xIiwiY2xpZW50X2lkIjoibWljaGVsX2NsaWVudCJ9.FiQRXuCKTyKgPQQMBDcAstbpj9-2phWddiKVpgP9qhFR63Gj1jXN92BdJ2LIz_rAzIZCZSCobP4d1ag9Mc7dLQRXFJYzxWQInCWVkZYdCrAHUtrrgPrA-7iRIEEvwB_kDn201FNYp5Tp7K21jDUrZpghXAZ-QkrfB7zEWGb246huUfrJFeLwDGponfBegLbXCV7VBFXeTmnGGMf0ie4l41o3GzbO4Pt3raMQV4sZ_zaL0iVlSoS9cOfUIxYqpAMyGF19HRjIva2wRTZNugX0m4SfCFPQHDlMyAtmtTSlsg2MpxM5QvmCHR8uJXh2rtW0uz7gZxNMAf5M-3ifiLFjNQ",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI2Mmg1azUzQ2VDa1hKSHlBZVg0Ui1oVHQ3WlBWME0zUWNGV2VwRTl3b200In0.eyJleHAiOjE3MjEyNTAzOTYsImlhdCI6MTcyMTI1MDA5NiwianRpIjoiMzc0NzVhZmEtODFjYi00ZmIxLTljNWEtNmY5YTY2OTRiZTFiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDkwL3JlYWxtcy92ZXRlcmluYXJ5X2NsaW5pYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJhMTRlY2JlYi04NzkwLTRlMjUtOWM4NC04NzkxYjY4NTJlNjIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJtaWNoZWxfY2xpZW50IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy12ZXRlcmluYXJ5X2NsaW5pYyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJtaWNoZWxfY2xpZW50Ijp7InJvbGVzIjpbInVtYV9wcm90ZWN0aW9uIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIHBldHMucmVhZC5hbGwgcHJvZmlsZSIsImNsaWVudEhvc3QiOiIxOTIuMTY4LjE5Mi4xIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtbWljaGVsX2NsaWVudCIsImNsaWVudEFkZHJlc3MiOiIxOTIuMTY4LjE5Mi4xIiwiY2xpZW50X2lkIjoibWljaGVsX2NsaWVudCJ9.jCU0jJ3Psl62zBAim8D5MICjkUeOGPdOQeCo88tZj0DOJ4InBWegVik6TSHTUd35uS230SPsxK5_Z8nIoogW9X16Buz3aO-VZ88oTvMwlPL7rAAzAUYTRLd-XcEzSk0hMeiNzSBeRFQn-H1azaXkYbt0sqsBK5rvTxLSCld-hX_DE9_u7UOG48P5uSHiUXdOX9DUKwRY8kRTmaBmw9uxsnLlP1Dtv5Y11tcbPE-WDYZGG1OzS8eynI2vpkb4VB9RI-b3AjRIeouuVqelmeMPJ8hjfhDumu5uwdHQKVP7D7fqryf8Qb9iI7_AnmxiV3W5ZflpodvsCGcOpuphHZrT4g",
 											"type": "string"
 										}
 									]
@@ -257,14 +257,15 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://{{krakend_host}}/protected/pets",
+									"raw": "http://{{krakend_host}}/protected/pets/a15c72f4-1145-45ad-a544-6ea6f5fc3bd0",
 									"protocol": "http",
 									"host": [
 										"{{krakend_host}}"
 									],
 									"path": [
 										"protected",
-										"pets"
+										"pets",
+										"a15c72f4-1145-45ad-a544-6ea6f5fc3bd0"
 									]
 								}
 							},
@@ -629,7 +630,7 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "9KDjdUIDFCVFI4Ph5oFCubYJgRhwX7tn",
+									"value": "ZQ8P3Q2FOn9cFjlzjE5aK2AfFwqP4JmK",
 									"type": "string"
 								},
 								{

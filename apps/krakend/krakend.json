@@ -122,43 +122,6 @@
             ]
         },
         {
-            "endpoint": "/sequential/pets/{id}",
-            "method": "GET",
-            "extra_config": {
-                "proxy": {
-                    "sequential": true
-                }
-            },
-            "backend": [
-                {
-                    "host": [
-                        "pets:8080"
-                    ],
-                    "url_pattern": "/{id}"
-                },
-                {
-                    "host": [
-                        "owners:8080"
-                    ],
-                    "url_pattern": "/{resp0_ownerId}",
-                    "mapping": {
-                        "id": "ownerId",
-                        "name": "ownerName"
-                    }
-                },
-                {
-                    "host": [
-                        "doctors:8080"
-                    ],
-                    "url_pattern": "/{resp0_doctorId}",
-                    "mapping": {
-                        "id": "doctorId",
-                        "name": "doctorName"
-                    }
-                }
-            ]
-        },
-        {
             "endpoint": "/rate-limit/service",
             "output_encoding": "no-op",
             "method": "GET",
@@ -201,34 +164,84 @@
             ]
         },
         {
-            "endpoint": "/deny/pets/{id}",
+            "endpoint": "/deny/owners/{id}",
             "method": "GET",
             "backend": [
                 {
                     "host": [
-                        "pets:8080"
+                        "owners:8080"
                     ],
                     "url_pattern": "/{id}",
                     "deny": [
-                        "ownerId"
+                        "address",
+                        "phone"
                     ]
                 }
             ]
         },
         {
-            "endpoint": "/allow/pets/{id}",
+            "endpoint": "/allow/owners/{id}",
             "method": "GET",
+            "backend": [
+                {
+                    "host": [
+                        "owners:8080"
+                    ],
+                    "url_pattern": "/{id}",
+                    "allow": [
+                        "firstName",
+                        "profileImage"
+                    ]
+                }
+            ]
+        },
+        {
+            "endpoint": "/sequential/pets/{id}",
+            "method": "GET",
+            "extra_config": {
+                "proxy": {
+                    "sequential": true
+                }
+            },
             "backend": [
                 {
                     "host": [
                         "pets:8080"
                     ],
                     "url_pattern": "/{id}",
+                    "mapping": {
+                        "id": "petId",
+                        "name": "petName",
+                        "breed": "petBreed"
+                    }
+                },
+                {
+                    "host": [
+                        "owners:8080"
+                    ],
+                    "url_pattern": "/{resp0_ownerId}",
                     "allow": [
                         "id",
-                        "name",
-                        "breed"
-                    ]
+                        "firstName",
+                        "lastName",
+                        "profileImage"
+                    ],
+                    "mapping": {
+                        "id": "ownerId",
+                        "firstName": "ownerFirstName",
+                        "lastName": "ownerLastName",
+                        "profileImage": "ownerProfileImage"
+                    }
+                },
+                {
+                    "host": [
+                        "doctors:8080"
+                    ],
+                    "url_pattern": "/{resp0_doctorId}",
+                    "mapping": {
+                        "id": "doctorId",
+                        "name": "doctorName"
+                    }
                 }
             ]
         },
