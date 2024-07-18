@@ -33,18 +33,18 @@ compactor:
   compaction:
     block_retention: 1h                # overall Tempo trace retention. set for demo purposes
 
-# metrics_generator:
-#   registry:
-#     external_labels:
-#       source: tempo
-#       cluster: docker-compose
-#   storage:
-#     path: /var/tempo/generator/wal
-#     # remote_write:
-#     #   - url: http://prometheus:9090/api/v1/write
-#     #     send_exemplars: true
-#   traces_storage:
-#     path: /var/tempo/generator/traces
+metrics_generator:
+  registry:
+    external_labels:
+      source: tempo
+      cluster: docker-compose
+  storage:
+    path: /var/tempo/generator/wal
+    # remote_write:
+    #   - url: http://prometheus:9090/api/v1/write
+    #     send_exemplars: true
+  traces_storage:
+    path: /var/tempo/generator/traces
 
 storage:
   trace:
@@ -54,8 +54,8 @@ storage:
     local:
       path: /var/tempo/blocks
 
-# overrides:
-#   defaults:
-#     metrics_generator:
-#       processors: [service-graphs, span-metrics, local-blocks] # enables metrics generator
-#       generate_native_histograms: both
+overrides:
+  defaults:
+    metrics_generator:
+      processors: [service-graphs, span-metrics, local-blocks] # enables metrics generator
+      generate_native_histograms: both
