@@ -28,7 +28,7 @@ http://localhost:8090
 Passos a serem feitos:
 
 1. Acesse o Keycloak
-2. Faça login no Keycloak usando o usuário as credenciais [ **admin** - **admin** ].
+2. Faça login usando as credenciais [ **admin** - **admin** ].
 3. Crie um **REALM** com o nome **veterinary_clinic**.
 4. Crie um **client scope** com o name **pets.read.all** com a propriedade **Include in token scope** habilitada.
 5. Crie um client do tipo **OpenID Connect** com qualquer Client Id, habilitando as propriedades **Client authentication** e **Authorization**.
