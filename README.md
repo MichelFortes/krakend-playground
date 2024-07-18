@@ -32,7 +32,8 @@ Passos a serem feitos:
 3. Crie um **REALM** com o nome **veterinary_clinic**.
 4. Crie um **client scope** com o name **pets.read.all** com a propriedade **Include in token scope** habilitada.
 5. Crie um client do tipo **OpenID Connect** com qualquer Client Id, habilitando as propriedades **Client authentication** e **Authorization**.
-6. Anote as credenciais do client para requisitar o access token via client credential flow (veja coleção postman).
+6. Atribua o client scope **pets.read.all** ao client criado.
+7. Anote as credenciais do client para requisitar o access token via client credential flow (veja coleção postman).
 
 ### Postman Collection
 You can find a postman collection under the /postman folder
