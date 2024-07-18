@@ -36,4 +36,4 @@ Passos a serem feitos:
 7. Anote as credenciais do client para requisitar o access token via client credential flow (veja coleção postman).
 
 ### Postman Collection
-You can find a postman collection under the /postman folder
+Você pode encontrar a coleção do Postman no diretório **/postman**.
