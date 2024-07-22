@@ -45,8 +45,10 @@
     "endpoints": [
         {
             "endpoint": "/pets",
-            "output_encoding": "no-op",
             "method": "GET",
+            "output_encoding": "no-op",
+            "input_headers": ["*"],
+            "input_query_strings": ["*"],
             "backend": [
                 {
                     "host": [
@@ -58,8 +60,10 @@
         },
         {
             "endpoint": "/pets/{id}",
-            "output_encoding": "no-op",
             "method": "GET",
+            "output_encoding": "no-op",
+            "input_headers": ["*"],
+            "input_query_strings": ["*"],
             "backend": [
                 {
                     "host": [
@@ -71,8 +75,10 @@
         },
         {
             "endpoint": "/doctors",
-            "output_encoding": "no-op",
             "method": "GET",
+            "output_encoding": "no-op",
+            "input_headers": ["*"],
+            "input_query_strings": ["*"],
             "backend": [
                 {
                     "host": [
@@ -84,8 +90,10 @@
         },
         {
             "endpoint": "/doctors/{id}",
-            "output_encoding": "no-op",
             "method": "GET",
+            "output_encoding": "no-op",
+            "input_headers": ["*"],
+            "input_query_strings": ["*"],
             "backend": [
                 {
                     "host": [
@@ -97,8 +105,10 @@
         },
         {
             "endpoint": "/owners",
-            "output_encoding": "no-op",
             "method": "GET",
+            "output_encoding": "no-op",
+            "input_headers": ["*"],
+            "input_query_strings": ["*"],
             "backend": [
                 {
                     "host": [
@@ -110,8 +120,10 @@
         },
         {
             "endpoint": "/owners/{id}",
-            "output_encoding": "no-op",
             "method": "GET",
+            "output_encoding": "no-op",
+            "input_headers": ["*"],
+            "input_query_strings": ["*"],
             "backend": [
                 {
                     "host": [
@@ -123,8 +135,10 @@
         },
         {
             "endpoint": "/rate-limit/service",
-            "output_encoding": "no-op",
             "method": "GET",
+            "output_encoding": "no-op",
+            "input_headers": ["*"],
+            "input_query_strings": ["*"],
             "extra_config": {
                 "qos/ratelimit/router": {
                     "capacity": 1,
@@ -144,8 +158,10 @@
         },
         {
             "endpoint": "/rate-limit/client",
-            "output_encoding": "no-op",
             "method": "GET",
+            "output_encoding": "no-op",
+            "input_headers": ["*"],
+            "input_query_strings": ["*"],
             "extra_config": {
                 "qos/ratelimit/router": {
                     "client_capacity": 1,
@@ -166,6 +182,8 @@
         {
             "endpoint": "/deny/owners/{id}",
             "method": "GET",
+            "input_headers": ["*"],
+            "input_query_strings": ["*"],
             "backend": [
                 {
                     "host": [
@@ -182,6 +200,8 @@
         {
             "endpoint": "/allow/owners/{id}",
             "method": "GET",
+            "input_headers": ["*"],
+            "input_query_strings": ["*"],
             "backend": [
                 {
                     "host": [
@@ -198,6 +218,8 @@
         {
             "endpoint": "/sequential/pets/{id}",
             "method": "GET",
+            "input_headers": ["*"],
+            "input_query_strings": ["*"],
             "extra_config": {
                 "proxy": {
                     "sequential": true
