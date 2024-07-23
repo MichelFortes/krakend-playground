@@ -7,11 +7,11 @@ otelcol.receiver.otlp "otlp_receiver" {
   }
 
   output {
-    traces = [ otelcol.processor.filter.exclude_spans.input ]
+    traces = [ otelcol.processor.filter.default.input ]
   }
 }
 
-otelcol.processor.filter "exclude_spans" {
+otelcol.processor.filter "default" {
   error_mode = "ignore"
 
   traces {
@@ -19,11 +19,11 @@ otelcol.processor.filter "exclude_spans" {
   }
 
   output {
-    traces = [ otelcol.processor.attributes.remove_sensitive.input ]
+    traces = [ otelcol.processor.attributes.default.input ]
   }
 }
 
-otelcol.processor.attributes "remove_sensitive" {
+otelcol.processor.attributes "default" {
 
   action {
     key = "http.request.header.authorization"
@@ -32,11 +32,32 @@ otelcol.processor.attributes "remove_sensitive" {
   }
 
   output {
-    traces = [ otelcol.exporter.otlp.gc_tempo.input ]
+    traces = [ otelcol.processor.memory_limiter.default.input ]
   }
 }
 
-otelcol.exporter.otlp "gc_tempo" {
+otelcol.processor.memory_limiter "default" {
+
+  check_interval = "1s"
+  limit_percentage = 20
+  spike_limit_percentage = 30
+
+  output {
+    traces = [ otelcol.processor.batch.default.input ]
+  }
+}
+
+otelcol.processor.batch "default" {
+
+  timeout = "1s"
+  send_batch_size = 1000
+
+  output {
+    traces = [ otelcol.exporter.otlp.default.input ]
+  }
+}
+
+otelcol.exporter.otlp "default" {
   client {
     endpoint = "tempo:4317"
     tls {
