@@ -50,6 +50,13 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=admin
     command: ["start-dev"]
 
+  grafana:
+    image: grafana/grafana-enterprise:11.1.0
+    networks:
+      - net
+    ports:
+      - "3000:3000"
+
   alloy:
     image: grafana/alloy:latest
     networks:
@@ -87,13 +94,6 @@ services:
     depends_on:
       - tempo-init
 
-  grafana:
-    image: grafana/grafana-enterprise:11.1.0
-    networks:
-      - net
-    ports:
-      - "3000:3000"
-
   mimir:
     image: grafana/mimir:2.13.0
     networks:
@@ -103,3 +103,10 @@ services:
       - "9009:9009"
     volumes:
       - ./apps/mimir/mimir.yaml:/etc/mimir.yaml
+
+  prometheus:
+    image: prom/prometheus
+    networks:
+      - net
+    ports:
+      - "9090:9090"
