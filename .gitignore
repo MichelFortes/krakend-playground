@@ -23,3 +23,4 @@ go.work.sum
 
 apps/tempo/data/*
 apps/loki/data/*
+apps/prometheus/data/*

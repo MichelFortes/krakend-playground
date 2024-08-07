@@ -1,6 +1,6 @@
-# Observability
+# Apps
 
-## KrakenD
+## Main Observability Schema
 
 KrakenD sends
 - Traces and Metrics using OTLP
@@ -20,14 +20,6 @@ Alloy separate signals and send then to the appropriate backends
 [ "Mimir" ]   [ "Loki" ]  [ "Tempo" ]
 ```
 
-## Alloy
+## Architecture Components Observability Schema
 
-Alloy also sends its own metrics and logs to the appropriate backends
-```bash
-          [ "Alloy" ] <- self
-             /   \
-    metrics /     \ logs
-           /       \
-[ "Mimir" ]         [ "Loki" ]
-
-```
+- [Alloy](alloy/README.md)
