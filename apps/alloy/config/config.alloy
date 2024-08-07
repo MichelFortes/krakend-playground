@@ -1,0 +1,113 @@
+
+// -----------------------
+// OTEL Metrics and Traces
+// -----------------------
+
+otelcol.receiver.otlp "otlp_receiver" {
+  grpc {
+    endpoint = "0.0.0.0:4317"
+  }
+
+  output {
+    traces = [ otelcol.processor.filter.default.input ]
+    metrics = [ otelcol.exporter.prometheus.default.input ]
+  }
+}
+
+otelcol.processor.filter "default" {
+  error_mode = "ignore"
+
+  traces {
+    span = [ "attributes[\"url.full\"] == \"/__health\"" ]
+  }
+
+  output {
+    traces = [ otelcol.processor.attributes.default.input ]
+  }
+}
+
+otelcol.processor.attributes "default" {
+
+  action {
+    key = "http.request.header.authorization"
+    action = "update"
+    value = "removed"
+  }
+
+  output {
+    traces = [ otelcol.processor.memory_limiter.default.input ]
+  }
+}
+
+otelcol.processor.memory_limiter "default" {
+
+  check_interval = "1s"
+  limit_percentage = 20
+  spike_limit_percentage = 30
+
+  output {
+    traces = [ otelcol.processor.batch.default.input ]
+  }
+}
+
+otelcol.processor.batch "default" {
+
+  timeout = "1s"
+  send_batch_size = 1000
+
+  output {
+    traces = [ otelcol.exporter.otlp.default.input ]
+  }
+}
+
+otelcol.exporter.otlp "default" {
+  client {
+    endpoint = env("ALLOY_TEMPO_ENDPOINT")
+    tls {
+      insecure = true
+    }
+  }
+}
+
+otelcol.exporter.prometheus "default" {
+  forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.remote_write "default" {
+  endpoint {
+    url = env("ALLOY_MIMIR_ENDPOINT")
+  }
+}
+
+// ----------------------
+// Logs
+// ----------------------
+
+logging {
+  level  = "info"
+  format = "logfmt"
+  write_to = [ loki.write.default.receiver ]
+}
+
+loki.source.gelf "default" {
+  listen_address = "0.0.0.0:12201"
+  forward_to = [ loki.write.default.receiver ]
+}
+
+loki.write "default" {
+  endpoint {
+    url = env("ALLOY_LOKI_ENDPOINT")
+  }
+}
+
+// -----------------
+// Self Metrics
+// -----------------
+
+prometheus.exporter.self "alloy" {}
+
+prometheus.scrape "self" {
+  job_name = "alloy"
+  targets = prometheus.exporter.self.alloy.targets
+  forward_to = [ prometheus.remote_write.default.receiver ]
+}

@@ -2,45 +2,75 @@
     "$schema": "https://www.krakend.io/schema/v2.6/krakend.json",
     "version": 3,
     "extra_config": {
+        "router":{
+            "logger_skip_paths":[
+              "/__health"
+            ],
+            "disable_access_log": true
+        },
         "telemetry/opentelemetry": {
             "service_name": "krakend",
             "trace_sample_rate": 1,
+            "metric_reporting_period":5,
             "layers": {
                 "global": {
                     "report_headers": true,
                     "disable_propagation": false,
-                    "disable_metrics": true,
+                    "disable_metrics": false,
                     "disable_traces": false
                 },
                 "proxy": {
-                    "disable_metrics": true,
-                    "disable_traces": true
+                    "disable_metrics": false,
+                    "disable_traces": false,
+                    "report_headers": true
                 },
                 "backend": {
                     "traces": {
-                        "disable_stage": true,
-                        "report_headers": true,
+                        "disable_stage": false,
                         "round_trip": true,
-                        "read_payload": true
+                        "detailed_connection": true,
+                        "read_payload": true,
+                        "report_headers": true
                     },
                     "metrics": {
-                        "disable_stage": true
+                        "disable_stage": false,
+                        "detailed_connection": true,
+                        "read_payload": true,
+                        "round_trip": true
                     }
                 }
             },
             "exporters": {
                 "otlp": [
                     {
+                        "name": "otlp_alloy",
                         "host": "alloy",
                         "port": 4317,
-                        "name": "grafana_alloy",
                         "use_http": false,
                         "disable_metrics": true,
                         "disable_traces": false
                     }
+                ],
+                "prometheus": [
+                    {
+                        "name": "otlp_prometheus",
+                        "port": 9090,
+                        "process_metrics": true,
+                        "go_metrics": true
+                    }
                 ]
             }
-        }
+        },
+        "telemetry/gelf": {
+            "address": "alloy:12201",
+            "enable_tcp": false
+          },
+          "telemetry/logging": {
+              "level": "INFO",
+              "prefix": "[KRAKEND]",
+              "syslog": false,
+              "stdout": true
+          }
     },
     "endpoints": [
         {
