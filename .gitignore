@@ -23,5 +23,6 @@ go.work.sum
 
 .DS_Store
 apps/tempo/data/*
+apps/mimir/data/*
 apps/loki/data/*
 apps/prometheus/data/*
