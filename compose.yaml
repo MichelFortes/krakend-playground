@@ -71,18 +71,22 @@ services:
     volumes:
       - ./apps/alloy/config/config.alloy:/etc/alloy/config.alloy
 
-  tempo-init:
-    image: &tempoImage grafana/tempo
+  init-volumes:
+    image: alpine
     user: root
     entrypoint:
       - "chown"
       - "10001:10001"
       - "/var/tempo"
+      - "/var/mimir"
+      - "/var/loki"
     volumes:
       - ./apps/tempo/data:/var/tempo
+      - ./apps/mimir/data:/var/mimir
+      - ./apps/loki/data:/var/loki
 
   tempo:
-    image: *tempoImage
+    image: grafana/tempo
     networks:
       - net
     command: [ "-config.file=/etc/tempo.yaml" ]
@@ -97,7 +101,7 @@ services:
       - "4318:4318"    # otlp http
       - "9411:9411"    # zipkin
     depends_on:
-      - tempo-init
+      - init-volumes
 
   mimir:
     image: grafana/mimir
@@ -108,19 +112,12 @@ services:
       - "9009:9009"
     volumes:
       - ./apps/mimir/config/mimir.yaml:/etc/mimir.yaml
-
-  loki-init:
-    image: &lokiImage grafana/loki
-    user: root
-    entrypoint:
-      - "chown"
-      - "10001:10001"
-      - "/var/loki"
-    volumes:
-      - ./apps/loki/data:/var/loki
+      - ./apps/mimir/data:/var/mimir
+    depends_on:
+      - init-volumes
 
   loki:
-    image: *lokiImage
+    image: grafana/loki
     networks:
       - net
     ports:
@@ -130,7 +127,7 @@ services:
       - ./apps/loki/config/loki.yaml:/etc/loki.yaml
       - ./apps/loki/data:/var/loki
     depends_on:
-      - loki-init
+      - init-volumes
 
   # prometheus:
   #   image: prom/prometheus
