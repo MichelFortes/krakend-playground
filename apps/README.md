@@ -17,7 +17,7 @@ Alloy separate signals and send then to the appropriate backends
              /   |   \
     metrics /   logs  \ traces
            /     |     \
-[ "Mimir" ]   [ "Loki" ]  [ "Tempo" ]
+[ "Mimir" ]  [ "Loki" ]  [ "Tempo" ]
 ```
 
 ## Architecture Components Observability Schema
