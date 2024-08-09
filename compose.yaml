@@ -58,19 +58,6 @@ services:
     ports:
       - "3000:3000"
 
-  alloy:
-    image: grafana/alloy
-    environment:
-      - ALLOY_TEMPO_ENDPOINT=http://tempo:4317
-      - ALLOY_MIMIR_ENDPOINT=http://mimir:9009/api/v1/push
-      - ALLOY_LOKI_ENDPOINT=http://loki:3100/loki/api/v1/push
-    networks:
-      - net
-    ports:
-      - 12345:12345
-    volumes:
-      - ./apps/alloy/config/config.alloy:/etc/alloy/config.alloy
-
   init-volumes:
     image: alpine
     user: root
@@ -84,6 +71,19 @@ services:
       - ./apps/tempo/data:/var/tempo
       - ./apps/mimir/data:/var/mimir
       - ./apps/loki/data:/var/loki
+
+  alloy:
+    image: grafana/alloy
+    networks:
+      - net
+    environment:
+      - ALLOY_TEMPO_ENDPOINT=http://tempo:4317
+      - ALLOY_MIMIR_ENDPOINT=http://mimir:9009/api/v1/push
+      - ALLOY_LOKI_ENDPOINT=http://loki:3100/loki/api/v1/push
+    ports:
+      - 12345:12345
+    volumes:
+      - ./apps/alloy/config/config.alloy:/etc/alloy/config.alloy
 
   tempo:
     image: grafana/tempo
