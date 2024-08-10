@@ -109,7 +109,13 @@ services:
     image: grafana/mimir
     networks:
       - net
-    command: ["-ingester.native-histograms-ingestion-enabled=true", "-config.file=/etc/mimir.yaml"]
+    environment:
+      - MIMIR_MINIO_ACCESS_KEY_ID=zcmapFr9j9nFdgNaCMIU
+      - MIMIR_MINIO_SECRET_ACCESS_KEY=bLgg5S6BQIeHUvW36ufrCdfKoDnyVf1i6cXIzSqv
+      - MIMIR_MINIO_BLOCKS_BUCKET_NAME=mimirblocks
+      - MIMIR_MINIO_ALERT_BUCKET_NAME=mimiralert
+      - MIMIR_MINIO_RULER_BUCKET_NAME=mimirruler
+    command: ["-ingester.native-histograms-ingestion-enabled=true", "-config.file=/etc/mimir.yaml", "-config.expand-env=true"]
     ports:
       - "9009:9009"
     volumes:
@@ -139,7 +145,7 @@ services:
     - MINIO_ADDRESS=:9000
     - MINIO_CONSOLE_ADDRESS=:9001
     - MINIO_ROOT_USER=miniorootuser
-    - MINIO_ROOT_PASSWORD=miniorttopass
+    - MINIO_ROOT_PASSWORD=miniorootpass
     ports:
       - "9000:9000"
       - "9001:9001"
