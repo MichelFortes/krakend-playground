@@ -25,4 +25,5 @@ go.work.sum
 apps/tempo/data/*
 apps/mimir/data/*
 apps/loki/data/*
+apps/minio/data/*
 apps/prometheus/data/*

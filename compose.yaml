@@ -67,10 +67,12 @@ services:
       - "/var/tempo"
       - "/var/mimir"
       - "/var/loki"
+      - "/var/minio"
     volumes:
       - ./apps/tempo/data:/var/tempo
       - ./apps/mimir/data:/var/mimir
       - ./apps/loki/data:/var/loki
+      - ./apps/minio/data:/var/minio
 
   alloy:
     image: grafana/alloy
@@ -126,6 +128,24 @@ services:
     volumes:
       - ./apps/loki/config/loki.yaml:/etc/loki.yaml
       - ./apps/loki/data:/var/loki
+    depends_on:
+      - init-volumes
+
+  minio:
+    image: minio/minio
+    networks:
+      - net
+    environment:
+    - MINIO_ADDRESS=:9000
+    - MINIO_CONSOLE_ADDRESS=:9001
+    - MINIO_ROOT_USER=miniorootuser
+    - MINIO_ROOT_PASSWORD=miniorttopass
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: [ "server", "/var/minio" ]
+    volumes:
+      - ./apps/minio/data:/var/minio
     depends_on:
       - init-volumes
 
