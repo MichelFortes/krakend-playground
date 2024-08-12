@@ -1,5 +1,5 @@
 # Grafana
-[Documentation](https://grafana.com/oss/grafana/)
+| [Documentation](https://grafana.com/oss/grafana/)  |  [Interface](http://localhost:3000) |
 
 An observability tool for visualizing telemetry data.
 

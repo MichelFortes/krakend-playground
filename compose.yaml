@@ -1,6 +1,5 @@
 networks:
-  net:
-    attachable: true
+  playground-net:
 
 services:
 
@@ -9,7 +8,7 @@ services:
       context: ./apps/veterinary_clinic/pets/
       dockerfile: Dockerfile
     networks:
-      - net
+      - playground-net
     ports:
       - 8081:8080
 
@@ -18,7 +17,7 @@ services:
       context: ./apps/veterinary_clinic/owners/
       dockerfile: Dockerfile
     networks:
-      - net
+      - playground-net
     ports:
       - 8082:8080
 
@@ -27,24 +26,14 @@ services:
       context: ./apps/veterinary_clinic/doctors/
       dockerfile: Dockerfile
     networks:
-      - net
+      - playground-net
     ports:
       - 8083:8080
-
-  krakend:
-    image: devopsfaith/krakend:2.6.3
-    volumes:
-      - ./apps/krakend/krakend.json:/etc/krakend/krakend.json
-    networks:
-      - net
-    ports:
-      - 8080:8080
-      - 8001:9090
 
   keycloak:
     image: keycloak/keycloak
     networks:
-      - net
+      - playground-net
     ports:
       - 8090:8080
     environment:
@@ -52,10 +41,25 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=admin
     command: ["start-dev"]
 
+  krakend:
+    image: devopsfaith/krakend:2.6.3
+    volumes:
+      - ./apps/krakend/krakend.json:/etc/krakend/krakend.json
+    networks:
+      - playground-net
+    ports:
+      - 8080:8080
+      - 8001:9090
+    depends_on:
+      - alloy
+      - pets
+      - doctors
+      - owners
+
   grafana:
     image: grafana/grafana
     networks:
-      - net
+      - playground-net
     ports:
       - "3000:3000"
 
@@ -78,7 +82,7 @@ services:
   alloy:
     image: grafana/alloy
     networks:
-      - net
+      - playground-net
     environment:
       - ALLOY_TEMPO_ENDPOINT=http://tempo:4317
       - ALLOY_MIMIR_ENDPOINT=http://mimir:9009/api/v1/push
@@ -87,14 +91,18 @@ services:
       - 12345:12345
     volumes:
       - ./apps/alloy/config/config.alloy:/etc/alloy/config.alloy
+    depends_on:
+      - tempo
+      - loki
+      - mimir
 
   tempo:
     image: grafana/tempo
     networks:
-      - net
+      - playground-net
     environment:
-      - TEMPO_MINIO_ACCESS_KEY_ID=3Gv862RTW4xKjYv6m7Ec
-      - TEMPO_MINIO_SECRET_ACCESS_KEY=gpye4QVWjyZlBXsBWXyHL7NPmTCOS0JI0BrH1wvW
+      - TEMPO_MINIO_ACCESS_KEY_ID=3ofmK7rW9fUJWKGuVLs3
+      - TEMPO_MINIO_SECRET_ACCESS_KEY=HOO5qK302ICEEnmryY2fQfPrOH42GWVuyyf3SfIM
       - TEMPO_MINIO_BUCKET_NAME=tempo
     command: [ "-config.file=/etc/tempo.yaml", "-config.expand-env=true"]
     volumes:
@@ -109,14 +117,15 @@ services:
       - "9411:9411"    # zipkin
     depends_on:
       - init-volumes
+      - minio
 
   mimir:
     image: grafana/mimir
     networks:
-      - net
+      - playground-net
     environment:
-      - MIMIR_MINIO_ACCESS_KEY_ID=zcmapFr9j9nFdgNaCMIU
-      - MIMIR_MINIO_SECRET_ACCESS_KEY=bLgg5S6BQIeHUvW36ufrCdfKoDnyVf1i6cXIzSqv
+      - MIMIR_MINIO_ACCESS_KEY_ID=JjsRW6yMFL76pzcEbWhv
+      - MIMIR_MINIO_SECRET_ACCESS_KEY=4dWnhuNhjlSMwjcIKqeBFeLvyvYDeD6e1CcN31z1
       - MIMIR_MINIO_BLOCKS_BUCKET_NAME=mimirblocks
       - MIMIR_MINIO_ALERT_BUCKET_NAME=mimiralert
       - MIMIR_MINIO_RULER_BUCKET_NAME=mimirruler
@@ -128,14 +137,15 @@ services:
       - ./apps/mimir/data:/var/mimir
     depends_on:
       - init-volumes
+      - minio
 
   loki:
     image: grafana/loki
     networks:
-      - net
+      - playground-net
     environment:
-      - LOKI_MINIO_ACCESS_KEY_ID=ddLKSQA8wkQLKX7uYdIK
-      - LOKI_MINIO_SECRET_ACCESS_KEY=5T5o1Gq7ha3xyfrUlPbYfrVAWywfZKlKePI4sUzq
+      - LOKI_MINIO_ACCESS_KEY_ID=295FlaAFUtnXf5TmGIpt
+      - LOKI_MINIO_SECRET_ACCESS_KEY=GwhKKGiss4lN1UgJBbX935xgVLc8zU0CaXquMfIU
       - LOKI_MINIO_BUCKET_NAME=loki
       - LOKI_MINIO_REGION=local
     ports:
@@ -146,11 +156,12 @@ services:
       - ./apps/loki/data:/var/loki
     depends_on:
       - init-volumes
+      - minio
 
   minio:
     image: minio/minio
     networks:
-      - net
+      - playground-net
     environment:
     - MINIO_ADDRESS=:9000
     - MINIO_CONSOLE_ADDRESS=:9001
@@ -168,7 +179,7 @@ services:
   # prometheus:
   #   image: prom/prometheus
   #   networks:
-  #     - net
+  #     - playground-net
   #   ports:
   #     - "9090:9090"
   #   command:

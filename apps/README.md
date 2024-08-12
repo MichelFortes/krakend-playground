@@ -1,6 +1,8 @@
 # Apps
 
-## Main Observability Schema
+## Veterinary Clinic
+
+## Observability
 
 KrakenD sends
 - Traces and Metrics using OTLP

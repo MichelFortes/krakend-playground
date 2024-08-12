@@ -4,7 +4,7 @@
 
 otelcol.receiver.otlp "otlp_receiver" {
   grpc {
-    endpoint = "127.0.0.1:4317"
+    endpoint = "0.0.0.0:4317"
   }
 
   output {

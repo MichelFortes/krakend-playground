@@ -1,5 +1,5 @@
 # MinIO
-[Documentation](https://min.io/)
+| [Documentation](https://min.io/) | [Interface](http://localhost:9001) |
 
 An AWS S3 compatible distributed Object Storage
 
