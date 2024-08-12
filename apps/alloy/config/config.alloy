@@ -1,3 +1,7 @@
+logging {
+  level  = "warn"
+  format = "logfmt"
+}
 
 // -----------------------
 // OTEL Metrics and Traces
@@ -5,7 +9,7 @@
 
 otelcol.receiver.otlp "otlp_receiver" {
   grpc {
-    endpoint = "0.0.0.0:4317"
+    endpoint = "127.0.0.1:4317"
   }
 
   output {
@@ -90,7 +94,7 @@ logging {
 }
 
 loki.source.gelf "default" {
-  listen_address = "0.0.0.0:12201"
+  listen_address = "127.0.0.1:12201"
   forward_to = [ loki.write.default.receiver ]
 }
 

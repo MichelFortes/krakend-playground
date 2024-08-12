@@ -1,5 +1,6 @@
 networks:
   net:
+    attachable: true
 
 services:
 
@@ -91,7 +92,11 @@ services:
     image: grafana/tempo
     networks:
       - net
-    command: [ "-config.file=/etc/tempo.yaml" ]
+    environment:
+      - TEMPO_MINIO_ACCESS_KEY_ID=3Gv862RTW4xKjYv6m7Ec
+      - TEMPO_MINIO_SECRET_ACCESS_KEY=gpye4QVWjyZlBXsBWXyHL7NPmTCOS0JI0BrH1wvW
+      - TEMPO_MINIO_BUCKET_NAME=tempo
+    command: [ "-config.file=/etc/tempo.yaml", "-config.expand-env=true"]
     volumes:
       - ./apps/tempo/config/tempo.yaml:/etc/tempo.yaml
       - ./apps/tempo/data:/var/tempo
@@ -128,9 +133,14 @@ services:
     image: grafana/loki
     networks:
       - net
+    environment:
+      - LOKI_MINIO_ACCESS_KEY_ID=ddLKSQA8wkQLKX7uYdIK
+      - LOKI_MINIO_SECRET_ACCESS_KEY=5T5o1Gq7ha3xyfrUlPbYfrVAWywfZKlKePI4sUzq
+      - LOKI_MINIO_BUCKET_NAME=loki
+      - LOKI_MINIO_REGION=local
     ports:
       - "3100:3100"
-    command: [ "-config.file=/etc/loki.yaml" ]
+    command: [ "-config.file=/etc/loki.yaml", "-config.expand-env=true" ]
     volumes:
       - ./apps/loki/config/loki.yaml:/etc/loki.yaml
       - ./apps/loki/data:/var/loki

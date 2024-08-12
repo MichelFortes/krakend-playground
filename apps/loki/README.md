@@ -1,7 +1,7 @@
 # Grafana Loki
 [Documentation](https://grafana.com/docs/loki)
 
-Solução para Logs da Grafana Labs
+Grafana Labs logs backend
 
 ## LogQL
 ```bash

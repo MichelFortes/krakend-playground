@@ -38,11 +38,11 @@ Passos a serem feitos:
 ### Postman Collection
 Você pode encontrar a coleção do Postman no diretório **/postman**.
 
-### Extraindo Métricas de Traces no Grafana (TraceQL Metrics)
+### Observabilidade
 
-https://github.com/grafana/tempo/blob/main/docs/design-proposals/2023-11%20TraceQL%20Metrics.md
-
-Exemplo de query:
-```
-{ status = ok } | rate() by (span.http.route)
-```
+- [Grafana](./apps/grafana/README.md)
+- [Alloy](./apps/alloy/README.md)
+- [Tempo](./apps/tempo/README.md)
+- [Mimir](./apps/mimir/README.md)
+- [Loki](./apps/loki/README.md)
+- [MinIO](./apps/minio/README.md)

@@ -1,7 +1,7 @@
 # Grafana Tempo
 [Documentation](https://grafana.com/docs/tempo)
 
-Solução para Traces da Grafana Labs
+Grafana Labs traces backend
 
 ## TraceQL
 ```bash

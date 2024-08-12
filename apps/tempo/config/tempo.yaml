@@ -31,23 +31,41 @@ metrics_generator:
       source: tempo
       cluster: docker-compose
   storage:
-    path: /var/tempo/generator/wal
     remote_write:
       - url: http://mimir:9009/api/v1/push
         send_exemplars: true
-  traces_storage:
-    path: /var/tempo/generator/traces
   processor:
     span_metrics:
       dimensions: [ x-tenant-id, x-client-id, http.response.status_code, http.response.body.size ]
+    #   dimension_mappings: [
+    #     {
+    #         name: tenant,
+    #         source_labels: x-tenant-id
+    #     },
+    #     {
+    #         name: client,
+    #         source_labels: x-client-id
+    #     },
+    #     {
+    #         name: status_code,
+    #         source_labels: http.response.status_code
+    #     },
+    #     {
+    #         name: response_size,
+    #         source_labels: http.response.body.size
+    #     }
+    #   ]
 
 storage:
   trace:
-    backend: local                     # backend configuration to use
-    wal:
-      path: /var/tempo/wal             # where to store the wal locally
-    local:
-      path: /var/tempo/blocks
+    backend: s3
+    s3:
+        endpoint: minio:9000
+        insecure: true
+        region: local
+        access_key: "${TEMPO_MINIO_ACCESS_KEY_ID}"
+        secret_key: "${TEMPO_MINIO_SECRET_ACCESS_KEY}"
+        bucket: "${TEMPO_MINIO_BUCKET_NAME}"
 
 overrides:
   defaults:

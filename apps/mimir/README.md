@@ -1,7 +1,7 @@
 # Grafana Mimir
 [Documentation](https://grafana.com/docs/mimir)
 
-Solução para Métricas da Grafana Labs
+Grafana Labs metrics backend
 
 ## PromQL
 ```bash

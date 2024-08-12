@@ -2,6 +2,7 @@ auth_enabled: false
 
 server:
   http_listen_port: 3100
+  log_level: warn
 
 common:
   ring:
@@ -11,16 +12,38 @@ common:
   replication_factor: 1
   path_prefix: /tmp/loki
 
+storage_config:
+  tsdb_shipper:
+    active_index_directory: /var/loki/index
+    cache_location: /var/loki/index_cache
+    cache_ttl: 24h  # Can be increased for faster performance over longer query periods, uses more disk space
+  aws:
+    s3: "http://${LOKI_MINIO_ACCESS_KEY_ID}:${LOKI_MINIO_SECRET_ACCESS_KEY}@minio:9000"
+    s3forcepathstyle: true
+    bucketnames: loki
+
 schema_config:
   configs:
-  - from: 2020-05-15
-    store: tsdb
-    object_store: filesystem
-    schema: v13
-    index:
-      prefix: index_
-      period: 24h
+    - from: 2020-07-01
+      store: tsdb
+      object_store: aws
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
 
-storage_config:
-  filesystem:
-    directory: /var/loki/chunks
+
+# schema_config:
+#   configs:
+#   - from: 2020-05-15
+#     store: tsdb
+#     object_store: filesystem
+#     schema: v13
+#     index:
+#       prefix: index_
+#       period: 24h
+
+# storage_config:
+#   filesystem:
+#     directory: /var/loki/chunks
+
