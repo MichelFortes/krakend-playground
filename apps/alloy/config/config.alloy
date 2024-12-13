@@ -7,8 +7,18 @@ otelcol.receiver.otlp "otlp_receiver" {
     endpoint = "0.0.0.0:4317"
   }
 
+  http {
+    endpoint = "0.0.0.0:4318"
+    traces_url_path = "/v1/traces"
+    metrics_url_path = "/v1/metrics"
+    logs_url_path = "/v1/logs"
+  }
+
   output {
-    traces = [ otelcol.processor.filter.default.input ]
+    traces = [ 
+      otelcol.processor.filter.default.input, 
+      otelcol.processor.filter.kafka.input,
+    ]
     metrics = [ otelcol.exporter.prometheus.default.input ]
   }
 }
@@ -109,4 +119,72 @@ prometheus.scrape "self" {
   job_name = "alloy"
   targets = prometheus.exporter.self.alloy.targets
   forward_to = [ prometheus.remote_write.default.receiver ]
+}
+
+// -----------------
+// KrakenD Scrape
+// -----------------
+
+prometheus.scrape "krakend" {
+  targets = [
+    {
+      "__address__" = "krakend-partner:9090", 
+      "instance" = "krakend-partner",
+    },
+    {
+      "__address__" = "krakend-group:9090", 
+      "instance" = "krakend-group",
+    },
+  ]
+  forward_to = [ prometheus.remote_write.default.receiver ]
+}
+
+// -----------------
+// Kafka
+// -----------------
+
+otelcol.processor.filter "kafka" {
+  error_mode = "ignore"
+
+  traces {
+    span = [ "attributes[\"krakend.stage\"] != \"proxy\"" ]
+  }
+
+  output {
+    // traces = [ otelcol.processor.memory_limiter.kafka.input ]
+    // traces = [ otelcol.exporter.kafka.default.input ]
+
+    traces = [ otelcol.processor.batch.kafka.input ]
+  }
+}
+
+// otelcol.processor.memory_limiter "kafka" {
+
+//   check_interval = "2s"
+//   limit_percentage = 20
+//   spike_limit_percentage = 30
+
+//   output {
+//     traces = [ otelcol.processor.batch.kafka.input ]
+//   }
+// }
+
+otelcol.processor.batch "kafka" {
+
+  send_batch_max_size = 1000000
+  
+  output {
+    traces = [ otelcol.exporter.kafka.default.input ]
+  }
+}
+
+otelcol.exporter.kafka "default" {
+  protocol_version = "1.1.1"
+  brokers = ["10.42.41.200:35001","10.42.41.200:35002","10.42.41.200:35003"]
+  topic = "krakend-traces"
+  encoding = "otlp_json"
+
+  producer {
+    max_message_bytes = 1000000
+  }
 }
